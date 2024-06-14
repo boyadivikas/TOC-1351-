@@ -1,0 +1,51 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_STATES 3
+#define MAX_INPUT 2
+
+int transition_table[MAX_STATES][MAX_INPUT] = {
+    {1, 0}, // state 0
+    {2, 1}, // state 1
+    {2, 2}  // state 2
+};
+
+int final_state = 2;
+
+int dfa_simulation(char *input_string) {
+    int current_state = 0;
+    int input_symbol;
+    int i;
+
+    for (i = 0; i < strlen(input_string); i++) {
+        if (input_string[i] == 'a')
+            input_symbol = 0;
+        else if (input_string[i] == 'b')
+            input_symbol = 1;
+        else {
+            printf("Invalid input symbol\n");
+            return -1;
+        }
+
+        current_state = transition_table[current_state][input_symbol];
+    }
+
+    if (current_state == final_state)
+        return 1; // string accepted
+    else
+        return 0; // string rejected
+}
+
+int main() {
+    char input_string[100];
+
+    printf("Enter a string: ");
+    scanf("%s", input_string);
+
+    if (dfa_simulation(input_string))
+        printf("String accepted\n");
+    else
+        printf("String rejected\n");
+
+    return 0;
+}
